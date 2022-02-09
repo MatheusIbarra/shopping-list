@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 
+
 export const Container = styled.View`
     flex: 1;
     background-color: ${props => props.theme.background};
@@ -60,6 +61,20 @@ export const ListCount = styled.View`
     height: 50px;
     bottom: 80px;
     right: 20px;
+    border-radius: 5px;
+    border: 1px solid white;
+    justify-content: center;
+    align-items: center;
+`
+
+export const DeleteAll = styled.TouchableOpacity`
+    background-color: ${props => props.theme.primary};
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    height: 30px;
+    bottom: 80px;
+    left: 20px;
     border-radius: 5px;
     border: 1px solid white;
     justify-content: center;

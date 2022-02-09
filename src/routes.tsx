@@ -15,7 +15,7 @@ const Routes: React.FC = () => {
                 screenOptions={{
                     headerShown: false
                 }}
-                initialRouteName='List'
+                initialRouteName='Home'
             >
                 <Stack.Screen name="Home" component={Home}/>
                 <Stack.Screen name="List" component={List}/>

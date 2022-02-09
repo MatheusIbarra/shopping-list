@@ -8,9 +8,10 @@ import { ShoppingItem } from '../../services/classes';
 interface ListProps {
     items: ShoppingItem[];
     selectItem(index: number): void;
+    handleDeleteItem(item: ShoppingItem): void;
 }
 
-const ShoppingList: React.FC<ListProps> = ({ items, selectItem }) => {
+const ShoppingList: React.FC<ListProps> = ({ items, selectItem, handleDeleteItem }) => {
 
 
     return (
@@ -30,7 +31,7 @@ const ShoppingList: React.FC<ListProps> = ({ items, selectItem }) => {
                             />
                             <Styled.ItemsName isSelected={item.isSelected}>{item.name}</Styled.ItemsName>
                         </Styled.ItemRow>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleDeleteItem(item)}>
                             <AntDesign name="closecircle" size={24} color="red" />
                         </TouchableOpacity>
                     </Styled.ItemsContainer>
