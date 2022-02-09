@@ -10,7 +10,7 @@ function usePersistedState<T>(key: string, initialState: T): Response<T> {
     const [state, setState] = useState<T>(initialState);
 
     useEffect(() => {
-        async () => {
+        async function getOlderState() {
             const storageValue = await AsyncStorage.getItem(key);
 
             if (storageValue) {
@@ -19,12 +19,16 @@ function usePersistedState<T>(key: string, initialState: T): Response<T> {
                 setState(initialState);
             }
         }
+
+        getOlderState();
     }, [])
 
     useEffect(() => {
-        async () => {
+        async function setNewItem(){
             await AsyncStorage.setItem(key, JSON.stringify(state));
         }
+
+        setNewItem();
     }, [key, state]);
 
     return [state, setState];

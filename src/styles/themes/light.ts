@@ -5,5 +5,6 @@ export default {
     tertiary: "#FF8888",
     quartenary: "#6E6E6E",
     background: "#FFF",
-    text: '#FFF'
+    text: '#000',
+    border: '#000',
 };

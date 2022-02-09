@@ -7,6 +7,7 @@ import usePersistedState from '../utils/usePersistedState'
 interface ThemeContextData {
     changeTheme(theme: string): void;
     resetTheme(): void;
+    theme: any;
 }
 
 const themeContext = createContext<ThemeContextData>({} as ThemeContextData);
@@ -15,14 +16,12 @@ const ThemeProvider: React.FC = ({ children }) => {
     const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', lightTheme);
 
     //HOOK PARA SELECIONAR TEMAS
-
-    const changeTheme = useCallback((newtheme: 'dark' | 'light') => {
+    const changeTheme = useCallback(async (newtheme: 'dark' | 'light') => {
         if (newtheme === 'dark') {
             setTheme(darkTheme);
         } else if (newtheme === 'light') {
-            setTheme(lightTheme)
+            setTheme(lightTheme);
         }
-        setTheme(theme);
     }, []);
 
     const resetTheme = useCallback(() => {
@@ -30,7 +29,7 @@ const ThemeProvider: React.FC = ({ children }) => {
     }, []);
 
     return (
-        <themeContext.Provider value={{ changeTheme, resetTheme }}>
+        <themeContext.Provider value={{ changeTheme, resetTheme, theme }}>
             <Provider theme={theme}>
                 {children}
             </Provider>
