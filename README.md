@@ -24,7 +24,7 @@ yarn start
 ```
 
 
-## TECNOLOGIAS
+## Tecnologies
 - Expo (~44.0.0)
 - Expo-Av (^10.2.1)
 - React Navigation/Native (^6.0.8)
