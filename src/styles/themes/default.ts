@@ -4,5 +4,7 @@ export default {
     secundary: "#3FAF47",
     tertiary: "#FF8888",
     quartenary: "#6E6E6E",
-    background: "#0d1117"
+    background: "#0d1117",
+    text: '#FFF'
+
 };

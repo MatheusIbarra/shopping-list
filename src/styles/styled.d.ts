@@ -8,5 +8,6 @@ declare module "styled-components/native" {
         /** Vermelho */ tertiary: string;
         /** Cinza */ quartenary: string;
         /** Light: Branco, Dark: Preto */ background: string;
+        /** BRANCO */ text: string;
     }
 }

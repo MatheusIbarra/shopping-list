@@ -1,15 +1,20 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native';
+
+import Container from '../../components/Container';
+const logoIcon = require('../../../assets/shopping-icon.png');
 import * as Styled from './styles';
+interface HomeProps {
+    navigation: any;
+}
 
-// import { Container } from './styles';
-
-const Home: React.FC = () => {
+const Home: React.FC<HomeProps> = ({ navigation }) => {
     return (
-        <SafeAreaView>
-            <View><Styled.TextTest>XD</Styled.TextTest></View>
-        </SafeAreaView>
+        <Container>
+            <Styled.LogoIcon source={logoIcon} />
+            <Styled.ButtonContainer>
+                <Styled.EntryButton title='Entrar' onPress={() => navigation.navigate('List')}/>
+            </Styled.ButtonContainer>
+        </Container>
     );
 }
 
