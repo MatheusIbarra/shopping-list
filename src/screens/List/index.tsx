@@ -19,6 +19,7 @@ const List: React.FC = () => {
     const [listItems, setListItems] = usePersistedState<ShoppingItem[]>('listItems', []);
     const [item, setItem] = useState(new ShoppingItem());
     const [modalVisible, setModalVisible] = useState(false);
+    const [editModalVisible, setEditModalVisible] = useState(false);
 
     const toggleSwitch = async () => {
         setIsEnabled(previousState => !previousState);
@@ -65,11 +66,28 @@ const List: React.FC = () => {
         setModalVisible(true);
     }
 
-    async function playSound() {
+    const playSound = async () => {
         const { sound } = await Audio.Sound.createAsync(
            require('../../../assets/sounds/select-sound.mp3')
         );
         await sound.playFromPositionAsync(0)
+    }
+
+    const handleEditItem = (item: any) => {
+        setItem(item);
+        setEditModalVisible(true);
+    }
+
+    const handleInputChange = (e: any) => {
+        setItem({...item, name: e})
+    }
+
+    const onEdit = () => {
+        const index = listItems.findIndex(e => e.id === item.id);
+        listItems[index].name = item.name;
+        setListItems([...listItems]);
+        setItem(new ShoppingItem());
+        setEditModalVisible(false);
     }
 
     useEffect(() => {
@@ -105,11 +123,12 @@ const List: React.FC = () => {
         }
 
         getTheme();
-    }, [])
+    }, []);
 
     return (
         <Styled.Container>
-            <ModalComponent visible={modalVisible} onClose={() => setModalVisible(false)} selectedItem={item} onDelete={onDelete} />
+            <ModalComponent visible={editModalVisible} onClose={() => {setItem(new ShoppingItem()) ;setEditModalVisible(false)}} selectedItem={item} onDelete={onDelete} isEditing={true} onChangeText={handleInputChange} item={item} onEdit={onEdit} />
+            <ModalComponent visible={modalVisible} onClose={() => {setItem(new ShoppingItem()) ;setModalVisible(false)}} selectedItem={item} onDelete={onDelete} isEditing={false} />
             <Styled.Header>
                 <Styled.HeaderText>Lista de compras</Styled.HeaderText>
                 <Styled.ChangeTheme>
@@ -123,7 +142,7 @@ const List: React.FC = () => {
             </Styled.Header>
 
             <View style={{padding: 5, flex: 1}}>
-                <ShoppingList handleDeleteItem={handleDeleteItem} selectItem={selectItem} items={listItems}/>
+                <ShoppingList handleDeleteItem={handleDeleteItem} selectItem={selectItem} items={listItems} handleEdit={handleEditItem}/>
             </View>
 
             {listItems.length > 0 && (
@@ -146,7 +165,7 @@ const List: React.FC = () => {
             )}
 
             <Styled.Footer>
-                <Styled.Input value={item.name} onChangeText={(e: any) => setItem({...item, name: e})} placeholder='Novo item na lista' maxLength={25} />
+                <Styled.Input value={item.name} onChangeText={handleInputChange} placeholder='Novo item na lista' maxLength={25} />
                 <Styled.ListButton disabled={!item.name} onPress={createNewItem}>
                     <AntDesign name="plus" size={20} color={themeColors.primary} />
                 </Styled.ListButton>

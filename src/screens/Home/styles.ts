@@ -22,3 +22,4 @@ export const EntryButton = styled.Button`
 export const ButtonContainer = styled.View`
     width: 70%;
 `
+

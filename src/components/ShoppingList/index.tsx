@@ -9,11 +9,10 @@ interface ListProps {
     items: ShoppingItem[];
     selectItem(index: number): void;
     handleDeleteItem(item: ShoppingItem): void;
+    handleEdit(item: ShoppingItem): void;
 }
 
-const ShoppingList: React.FC<ListProps> = ({ items, selectItem, handleDeleteItem }) => {
-
-
+const ShoppingList: React.FC<ListProps> = ({ items, selectItem, handleDeleteItem, handleEdit }) => {
     return (
         <FlatList
             ListEmptyComponent={() => (
@@ -29,7 +28,9 @@ const ShoppingList: React.FC<ListProps> = ({ items, selectItem, handleDeleteItem
                                 value={item.isSelected}
                                 onValueChange={() => selectItem(index)}
                             />
-                            <Styled.ItemsName isSelected={item.isSelected}>{item.name}</Styled.ItemsName>
+                            <Styled.EditItemName onPress={() => handleEdit(item)} style={{width: '80%'}}>
+                                <Styled.ItemsName isSelected={item.isSelected}>{item.name}</Styled.ItemsName>
+                            </Styled.EditItemName>
                         </Styled.ItemRow>
                         <TouchableOpacity onPress={() => handleDeleteItem(item)}>
                             <AntDesign name="closecircle" size={24} color="red" />

@@ -33,5 +33,9 @@ export const NoItemsText = styled.Text`
     font-size: 16px;
     font-weight: bold;
     margin-top: 20px;
-    color: ${props => props.theme.text}
+    color: ${props => props.theme.text};
 `
+export const EditItemName = styled.TouchableOpacity`
+    width: 80%
+`
+
