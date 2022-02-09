@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/shopping-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.shoppingArt.app"
     },
     "web": {
       "favicon": "./assets/shopping-icon.png"

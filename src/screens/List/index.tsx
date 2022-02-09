@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, View, ScrollView, BackHandler, Alert } from 'react-native';
+import { Switch, View, BackHandler, Alert } from 'react-native';
 import { Entypo, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Audio } from 'expo-av';

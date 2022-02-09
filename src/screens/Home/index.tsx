@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
-import usePersistedState from '../../utils/usePersistedState';
-import * as Styled from './styles';
-const logoIcon = require('../../../assets/shopping-icon.png');
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// import { Container } from './styles';
-
+const logoIcon = require('../../../assets/shopping-icon.png');
+import * as Styled from './styles';
 interface HomeProps {
     navigation: any;
 }
