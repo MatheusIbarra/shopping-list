@@ -4,6 +4,7 @@ import { Entypo, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Audio } from 'expo-av';
 import { useTheme as componentsTheme }  from 'styled-components/native';
+import * as Random from 'expo-random';
 
 import * as Styled from './styles';
 import { useTheme } from '../../hooks/theme';
@@ -21,9 +22,9 @@ const List: React.FC = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [editModalVisible, setEditModalVisible] = useState(false);
 
+    //Alteração no switch de tema
     const toggleSwitch = async () => {
         setIsEnabled(previousState => !previousState);
-
         if(isEnabled) {
             changeTheme('light');
         } else {
@@ -31,18 +32,21 @@ const List: React.FC = () => {
         }
     };
 
+    //Seleciona um item escolhido.
     const selectItem = (item: number) => {
         listItems[item].isSelected = !listItems[item].isSelected;
         setListItems([...listItems]);
         playSound();
     }
 
+    //Cria um novo item.
     const createNewItem = () => {
-        const newItem = {...item, id: Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1), isSelected: false};
+        const newItem = {...item, id: Random.getRandomBytes(8).join().replace(/[^\d]+/g, ''), isSelected: false};
         setListItems([...listItems, newItem]);
         setItem(new ShoppingItem());
     }
 
+    //Deleta um item ou os itens selecionados.
     const onDelete = () => {
         if(item?.id) {
             const index = listItems.findIndex(e => e.id === item.id);
@@ -57,15 +61,15 @@ const List: React.FC = () => {
         }
     }
 
+    //Abre modal para deletar item
     const handleDeleteItem = (item?: ShoppingItem) => {
-
         if(item) {
             setItem(item);
         }
-
         setModalVisible(true);
     }
 
+    //Toca som ao selecionar um item
     const playSound = async () => {
         const { sound } = await Audio.Sound.createAsync(
            require('../../../assets/sounds/select-sound.mp3')
@@ -73,15 +77,18 @@ const List: React.FC = () => {
         await sound.playFromPositionAsync(0)
     }
 
+    //Seta item e dispara modal para edita-lo
     const handleEditItem = (item: any) => {
         setItem(item);
         setEditModalVisible(true);
     }
 
+    //Controle de input
     const handleInputChange = (e: any) => {
         setItem({...item, name: e})
     }
 
+    //Ao editar, salva na lista.
     const onEdit = () => {
         const index = listItems.findIndex(e => e.id === item.id);
         listItems[index].name = item.name;
@@ -90,6 +97,21 @@ const List: React.FC = () => {
         setEditModalVisible(false);
     }
 
+    //Seleciona todos ou desceleciona todos.
+    const selectAll = () => {
+        if(listItems.filter((e: ShoppingItem) => e.isSelected).length === listItems.length) {
+            listItems.forEach(e => {
+                e.isSelected = false;
+            })
+        } else {
+            listItems.forEach(e => {
+                e.isSelected = true;
+            })
+        }
+        setListItems([...listItems]);
+    }
+
+    //Evento caso usuario tente sair do app
     useEffect(() => {
         const backAction = () => {
           Alert.alert('Aviso', 'Você tem certeza que deseja fechar o app ?', [
@@ -109,6 +131,7 @@ const List: React.FC = () => {
         return () => backHandler.remove();
     }, []);
 
+    //Setagem de tema.
     useEffect(() => {
         const getTheme = async () => {
             const storageValue = await AsyncStorage.getItem('theme');
@@ -154,11 +177,20 @@ const List: React.FC = () => {
                     </Styled.ListCount>
 
                     {listItems.filter((e: ShoppingItem) => e.isSelected).length > 0 && (
-                        <Styled.DeleteAll onPress={() => handleDeleteItem()}>
-                            <Styled.HeaderText style={{fontSize: 10}}>
-                                Apagar todos selecionados
-                            </Styled.HeaderText>
-                        </Styled.DeleteAll>
+                        <>
+                            <Styled.DeleteAll style={{bottom: 120}} onPress={selectAll}>
+                                <Styled.HeaderText style={{fontSize: 10}}>
+                                {listItems.filter((e: ShoppingItem) => e.isSelected).length === listItems.length ?
+                                    'Descelecionar todos' : 'Selecionar todos'
+                                }
+                                </Styled.HeaderText>
+                            </Styled.DeleteAll>
+                            <Styled.DeleteAll onPress={() => handleDeleteItem()}>
+                                <Styled.HeaderText style={{fontSize: 10}}>
+                                    Apagar todos selecionados
+                                </Styled.HeaderText>
+                            </Styled.DeleteAll>
+                        </>
                     )}
 
                 </>
@@ -170,7 +202,6 @@ const List: React.FC = () => {
                     <AntDesign name="plus" size={20} color={themeColors.primary} />
                 </Styled.ListButton>
             </Styled.Footer>
-
         </Styled.Container>
     );
 }

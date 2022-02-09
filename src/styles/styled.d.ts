@@ -9,6 +9,6 @@ declare module "styled-components/native" {
         /** Cinza */ quartenary: string;
         /** Light: Branco, Dark: Preto */ background: string;
         /** BRANCO */ text: string;
-        border: string;
+        /** BRANCO OU PRETO */ border: string;
     }
 }

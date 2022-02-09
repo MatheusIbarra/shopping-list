@@ -73,7 +73,7 @@ export const DeleteAll = styled.TouchableOpacity`
     position: absolute;
     height: 30px;
     bottom: 80px;
-    left: 20px;
+    right: 20%;
     border-radius: 5px;
     border: 1px solid white;
     justify-content: center;

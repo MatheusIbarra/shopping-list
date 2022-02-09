@@ -15,7 +15,7 @@ const themeContext = createContext<ThemeContextData>({} as ThemeContextData);
 const ThemeProvider: React.FC = ({ children }) => {
     const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', lightTheme);
 
-    //HOOK PARA SELECIONAR TEMAS
+    //Hook para selecionar tema
     const changeTheme = useCallback(async (newtheme: 'dark' | 'light') => {
         if (newtheme === 'dark') {
             setTheme(darkTheme);
@@ -24,6 +24,7 @@ const ThemeProvider: React.FC = ({ children }) => {
         }
     }, []);
 
+    //Hook para resetar tema no futuro
     const resetTheme = useCallback(() => {
         setTheme(lightTheme);
     }, []);
